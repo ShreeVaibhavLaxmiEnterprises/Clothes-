@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nirmal Clothes | Premium Online Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#f4f4f4}
+header{background:#000;color:#fff;padding:15px 30px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0}
+nav a{color:#fff;margin-left:15px;text-decoration:none}
+
+section{padding:50px}
+.hero{background:url("https://images.unsplash.com/photo-1521334884684-d80222895322") center/cover;height:70vh;color:#fff;display:flex;align-items:center;justify-content:center}
+.hero h2{background:rgba(0,0,0,0.6);padding:20px;font-size:40px}
+
+.counters{display:flex;justify-content:center;gap:60px;background:#fff}
+.counter{text-align:center}
+.counter h2{font-size:40px;color:#000}
+
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
+.card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center}
+.card img{width:100%;height:250px;object-fit:cover;border-radius:10px}
+.card button{background:#000;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer}
+
+#cart,#checkout,#track,#admin,#invoice{display:none;background:#fff;padding:30px}
+input,textarea,select{width:100%;padding:10px;margin:10px 0}
+
+button{cursor:pointer}
+.whatsapp{position:fixed;right:20px;bottom:20px;background:#25d366;color:#fff;padding:15px 20px;border-radius:50px;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Nirmal Clothes</h1>
+<nav>
+<a onclick="show('home')">Home</a>
+<a onclick="show('shop')">Shop</a>
+<a onclick="show('cart')">Cart (<span id="count">0</span>)</a>
+<a onclick="show('track')">Track Order</a>
+<a onclick="show('admin')">Admin</a>
+</nav>
+</header>
+
+<!-- HOME -->
+<div id="home">
+<section class="hero">
+<h2>Premium Fashion For Everyone</h2>
+</section>
+
+<section class="counters">
+<div class="counter">
+<h2 id="cust">0</h2>
+<p>Happy Customers</p>
+</div>
+<div class="counter">
+<h2 id="rev">0</h2>
+<p>Reviews</p>
+</div>
+</section>
+</div>
+
+<!-- SHOP -->
+<section id="shop">
+<h2>Our Products</h2>
+<div class="products">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
+<h3>Men Shirt</h3>
+<p>₹1499</p>
+<button onclick="addCart('Men Shirt',1499)">Add to Cart</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1542060748-10c28b62716b">
+<h3>Women Dress</h3>
+<p>₹1999</p>
+<button onclick="addCart('Women Dress',1999)">Add to Cart</button>
+</div>
+</div>
+</section>
+
+<!-- CART -->
+<section id="cart">
+<h2>Your Cart</h2>
+<div id="cartItems"></div>
+<h3>Total: ₹<span id="total">0</span></h3>
+<button onclick="show('checkout')">Checkout</button>
+</section>
+
+<!-- CHECKOUT -->
+<section id="checkout">
+<h2>Checkout</h2>
+<input id="name" placeholder="Full Name">
+<input id="mobile" placeholder="Mobile Number">
+<textarea id="address" placeholder="Address"></textarea>
+
+<select id="payment">
+<option value="online">Online Payment (UPI)</option>
+<option value="cod">Cash On Delivery</option>
+</select>
+
+<p>GST Included (5%)</p>
+<button onclick="placeOrder()">Place Order</button>
+</section>
+
+<!-- TRACK -->
+<section id="track">
+<h2>Track Order</h2>
+<input id="trackId" placeholder="Enter Order ID">
+<button onclick="trackOrder()">Track</button>
+<p id="trackStatus"></p>
+</section>
+
+<!-- ADMIN -->
+<section id="admin">
+<h2>Admin Panel</h2>
+<input id="aid" placeholder="Order ID">
+<select id="astatus">
+<option>Packed</option>
+<option>Shipped</option>
+<option>Out for Delivery</option>
+<option>Delivered</option>
+</select>
+<button onclick="updateOrder()">Update Status</button>
+</section>
+
+<!-- INVOICE -->
+<section id="invoice">
+<h2>Invoice</h2>
+<p><b>Brand:</b> Nirmal Clothes</p>
+<p><b>GST:</b> Included (5%)</p>
+<p>Total Paid: ₹<span id="invTotal"></span></p>
+</section>
+
+<a class="whatsapp" href="https://wa.me/919151543906">WhatsApp</a>
+
+<script>
+let cart=[],total=0;
+
+function show(id){
+document.querySelectorAll("section, #home").forEach(e=>e.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function addCart(name,price){
+cart.push({name,price});
+total+=price;
+document.getElementById("count").innerText=cart.length;
+renderCart();
+}
+
+function renderCart(){
+let html="";
+cart.forEach(i=>{
+html+=`<p>${i.name} - ₹${i.price}</p>`;
+});
+document.getElementById("cartItems").innerHTML=html;
+document.getElementById("total").innerText=total;
+}
+
+function placeOrder(){
+let orderId="NC"+Math.floor(Math.random()*1000000);
+localStorage.setItem(orderId,"Order Placed");
+alert("Order Placed! Order ID: "+orderId);
+
+if(document.getElementById("payment").value==="online"){
+var options={
+key:"RAZORPAY_KEY_HERE",
+amount:total*100,
+currency:"INR",
+name:"Nirmal Clothes",
+handler:function(){
+alert("Payment Success");
+}
+};
+new Razorpay(options).open();
+}
+show('track');
+}
+
+function trackOrder(){
+let id=document.getElementById("trackId").value;
+let s=localStorage.getItem(id);
+document.getElementById("trackStatus").innerText=s?s:"Order Not Found";
+}
+
+function updateOrder(){
+let id=document.getElementById("aid").value;
+let s=document.getElementById("astatus").value;
+localStorage.setItem(id,s);
+alert("Updated");
+}
+
+function counter(id,target){
+let c=0;
+let i=setInterval(()=>{
+c+=Math.ceil(target/100);
+if(c>=target){c=target;clearInterval(i);}
+document.getElementById(id).innerText=c;
+},20);
+}
+counter("cust",18000);
+counter("rev",1000);
+
+show("home");
+</script>
+
+</body>
+</html>
