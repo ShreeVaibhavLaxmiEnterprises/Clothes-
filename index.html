@@ -2,34 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nirmal Clothes | Premium Online Store</title>
+<title>Nirmal Clothes | Premium Ethnic Wear</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4}
-header{background:#000;color:#fff;padding:15px 30px;display:flex;justify-content:space-between;align-items:center}
+header{background:#111;color:#fff;padding:15px 30px;display:flex;justify-content:space-between;align-items:center}
 header h1{margin:0}
-nav a{color:#fff;margin-left:15px;text-decoration:none}
+nav a{color:#fff;margin-left:15px;text-decoration:none;cursor:pointer}
 
-section{padding:50px}
-.hero{background:url("https://images.unsplash.com/photo-1521334884684-d80222895322") center/cover;height:70vh;color:#fff;display:flex;align-items:center;justify-content:center}
-.hero h2{background:rgba(0,0,0,0.6);padding:20px;font-size:40px}
+.hero{
+background:url("https://images.unsplash.com/photo-1618354691438-25bc04584c23") center/cover;
+height:70vh;display:flex;align-items:center;justify-content:center;color:#fff
+}
+.hero h2{background:rgba(0,0,0,0.6);padding:20px;font-size:36px}
 
-.counters{display:flex;justify-content:center;gap:60px;background:#fff}
+section{padding:40px}
+.counters{display:flex;justify-content:center;gap:80px;background:#fff}
 .counter{text-align:center}
-.counter h2{font-size:40px;color:#000}
+.counter h2{font-size:42px;margin:0}
 
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
-.card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center}
-.card img{width:100%;height:250px;object-fit:cover;border-radius:10px}
-.card button{background:#000;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer}
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px
+}
+.card{
+background:#fff;border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+padding:15px;text-align:center
+}
+.card img{width:100%;height:300px;object-fit:cover;border-radius:12px}
+.price{font-size:20px;font-weight:bold;margin:10px 0}
+button{
+background:#111;color:#fff;border:none;
+padding:10px 20px;border-radius:25px;cursor:pointer
+}
 
-#cart,#checkout,#track,#admin,#invoice{display:none;background:#fff;padding:30px}
-input,textarea,select{width:100%;padding:10px;margin:10px 0}
+#cart,#checkout{display:none;background:#fff}
 
-button{cursor:pointer}
-.whatsapp{position:fixed;right:20px;bottom:20px;background:#25d366;color:#fff;padding:15px 20px;border-radius:50px;text-decoration:none}
+input,textarea,select{
+width:100%;padding:10px;margin:10px 0
+}
+
+footer{
+background:#111;color:#fff;text-align:center;padding:15px
+}
 </style>
 </head>
 
@@ -38,19 +56,17 @@ button{cursor:pointer}
 <header>
 <h1>Nirmal Clothes</h1>
 <nav>
-<a onclick="show('home')">Home</a>
-<a onclick="show('shop')">Shop</a>
-<a onclick="show('cart')">Cart (<span id="count">0</span>)</a>
-<a onclick="show('track')">Track Order</a>
-<a onclick="show('admin')">Admin</a>
+<a onclick="showHome()">Home</a>
+<a onclick="showShop()">Shop</a>
+<a onclick="showCart()">Cart (<span id="count">0</span>)</a>
 </nav>
 </header>
 
-<!-- HOME -->
+<!-- HERO -->
 <div id="home">
-<section class="hero">
-<h2>Premium Fashion For Everyone</h2>
-</section>
+<div class="hero">
+<h2>Premium Ethnic Fashion for Women</h2>
+</div>
 
 <section class="counters">
 <div class="counter">
@@ -66,21 +82,81 @@ button{cursor:pointer}
 
 <!-- SHOP -->
 <section id="shop">
-<h2>Our Products</h2>
+<h2>Our Collection</h2>
+
 <div class="products">
+
+<!-- 1 DESIGNER KURTI -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-<h3>Men Shirt</h3>
-<p>₹1499</p>
-<button onclick="addCart('Men Shirt',1499)">Add to Cart</button>
+<img src="https://images.unsplash.com/photo-1622445275576-721325763afe">
+<h3>Designer Kurti</h3>
+<p>Sizes: S / M / L / XL</p>
+<p>HSN: 6104 | GST: 5%</p>
+<p>Purchase Price: ₹2,200</p>
+<div class="price">₹4,200</div>
+<button onclick="addCart('Designer Kurti',4200)">Add to Cart</button>
 </div>
 
+<!-- 2 KURTI SET -->
 <div class="card">
-<img src="https://images.unsplash.com/photo-1542060748-10c28b62716b">
-<h3>Women Dress</h3>
-<p>₹1999</p>
-<button onclick="addCart('Women Dress',1999)">Add to Cart</button>
+<img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba6">
+<h3>Premium Kurti Set</h3>
+<p>Kurti + Pant + Dupatta</p>
+<p>Sizes: M / L / XL</p>
+<p>HSN: 6104 | GST: 5%</p>
+<div class="price">₹5,800</div>
+<button onclick="addCart('Premium Kurti Set',5800)">Add to Cart</button>
 </div>
+
+<!-- 3 DESIGNER DRESS -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8">
+<h3>Designer Women Dress</h3>
+<p>Sizes: S / M / L</p>
+<p>HSN: 6104 | GST: 5%</p>
+<div class="price">₹6,200</div>
+<button onclick="addCart('Designer Women Dress',6200)">Add to Cart</button>
+</div>
+
+<!-- 4 SAREE -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1583391733956-3750e0ff3f5a">
+<h3>Premium Saree</h3>
+<p>Length: 5.5 Meter</p>
+<p>HSN: 5407 | GST: 5%</p>
+<div class="price">₹4,500</div>
+<button onclick="addCart('Premium Saree',4500)">Add to Cart</button>
+</div>
+
+<!-- 5 ANARKALI -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1623609163859-92c9f0f3f404">
+<h3>Anarkali Suit</h3>
+<p>Sizes: M / L / XL</p>
+<p>HSN: 6104 | GST: 5%</p>
+<div class="price">₹7,500</div>
+<button onclick="addCart('Anarkali Suit',7500)">Add to Cart</button>
+</div>
+
+<!-- 6 LEHENGA -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1609250291996-fdebe6020a8f">
+<h3>Designer Lehenga Set</h3>
+<p>Free Size</p>
+<p>HSN: 6104 | GST: 5%</p>
+<div class="price">₹12,500</div>
+<button onclick="addCart('Designer Lehenga',12500)">Add to Cart</button>
+</div>
+
+<!-- 7 DUPATTA -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1631111641360-b1f4c7f3abfd">
+<h3>Designer Dupatta</h3>
+<p>HSN: 6214 | GST: 5%</p>
+<div class="price">₹800</div>
+<button onclick="addCart('Designer Dupatta',800)">Add to Cart</button>
+</div>
+
 </div>
 </section>
 
@@ -89,62 +165,54 @@ button{cursor:pointer}
 <h2>Your Cart</h2>
 <div id="cartItems"></div>
 <h3>Total: ₹<span id="total">0</span></h3>
-<button onclick="show('checkout')">Checkout</button>
+<button onclick="showCheckout()">Checkout</button>
 </section>
 
 <!-- CHECKOUT -->
 <section id="checkout">
 <h2>Checkout</h2>
-<input id="name" placeholder="Full Name">
-<input id="mobile" placeholder="Mobile Number">
-<textarea id="address" placeholder="Address"></textarea>
-
-<select id="payment">
-<option value="online">Online Payment (UPI)</option>
-<option value="cod">Cash On Delivery</option>
+<input placeholder="Customer Name">
+<input placeholder="Mobile Number">
+<textarea placeholder="Full Address"></textarea>
+<select>
+<option>Cash On Delivery</option>
+<option>Online Payment (UPI)</option>
 </select>
-
 <p>GST Included (5%)</p>
 <button onclick="placeOrder()">Place Order</button>
 </section>
 
-<!-- TRACK -->
-<section id="track">
-<h2>Track Order</h2>
-<input id="trackId" placeholder="Enter Order ID">
-<button onclick="trackOrder()">Track</button>
-<p id="trackStatus"></p>
-</section>
-
-<!-- ADMIN -->
-<section id="admin">
-<h2>Admin Panel</h2>
-<input id="aid" placeholder="Order ID">
-<select id="astatus">
-<option>Packed</option>
-<option>Shipped</option>
-<option>Out for Delivery</option>
-<option>Delivered</option>
-</select>
-<button onclick="updateOrder()">Update Status</button>
-</section>
-
-<!-- INVOICE -->
-<section id="invoice">
-<h2>Invoice</h2>
-<p><b>Brand:</b> Nirmal Clothes</p>
-<p><b>GST:</b> Included (5%)</p>
-<p>Total Paid: ₹<span id="invTotal"></span></p>
-</section>
-
-<a class="whatsapp" href="https://wa.me/919151543906">WhatsApp</a>
+<footer>
+<p>© 2026 Nirmal Clothes | Email: nirmalclothes@gmail.com</p>
+</footer>
 
 <script>
 let cart=[],total=0;
 
-function show(id){
-document.querySelectorAll("section, #home").forEach(e=>e.style.display="none");
-document.getElementById(id).style.display="block";
+function showHome(){
+home.style.display="block";
+shop.style.display="block";
+cartSec.style.display="none";
+checkout.style.display="none";
+}
+
+function showShop(){
+home.style.display="none";
+shop.style.display="block";
+cartSec.style.display="none";
+checkout.style.display="none";
+}
+
+function showCart(){
+home.style.display="none";
+shop.style.display="none";
+cartSec.style.display="block";
+checkout.style.display="none";
+}
+
+function showCheckout(){
+cartSec.style.display="none";
+checkout.style.display="block";
 }
 
 function addCart(name,price){
@@ -156,45 +224,21 @@ renderCart();
 
 function renderCart(){
 let html="";
-cart.forEach(i=>{
-html+=`<p>${i.name} - ₹${i.price}</p>`;
-});
-document.getElementById("cartItems").innerHTML=html;
+cart.forEach(i=>html+=`<p>${i.name} - ₹${i.price}</p>`);
+cartItems.innerHTML=html;
 document.getElementById("total").innerText=total;
 }
 
 function placeOrder(){
-let orderId="NC"+Math.floor(Math.random()*1000000);
-localStorage.setItem(orderId,"Order Placed");
-alert("Order Placed! Order ID: "+orderId);
-
-if(document.getElementById("payment").value==="online"){
-var options={
-key:"RAZORPAY_KEY_HERE",
-amount:total*100,
-currency:"INR",
-name:"Nirmal Clothes",
-handler:function(){
-alert("Payment Success");
-}
-};
-new Razorpay(options).open();
-}
-show('track');
+alert("Order Placed Successfully!");
+cart=[];total=0;
+renderCart();
 }
 
-function trackOrder(){
-let id=document.getElementById("trackId").value;
-let s=localStorage.getItem(id);
-document.getElementById("trackStatus").innerText=s?s:"Order Not Found";
-}
-
-function updateOrder(){
-let id=document.getElementById("aid").value;
-let s=document.getElementById("astatus").value;
-localStorage.setItem(id,s);
-alert("Updated");
-}
+let home=document.getElementById("home");
+let shop=document.getElementById("shop");
+let cartSec=document.getElementById("cart");
+let checkout=document.getElementById("checkout");
 
 function counter(id,target){
 let c=0;
@@ -207,8 +251,8 @@ document.getElementById(id).innerText=c;
 counter("cust",18000);
 counter("rev",1000);
 
-show("home");
+showHome();
 </script>
 
 </body>
-</html>
+  </html>
