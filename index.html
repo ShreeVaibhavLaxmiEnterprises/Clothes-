@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supervisor Dashboard</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f4f8fc}
+header{background:#0d6efd;color:#fff;padding:15px;text-align:center;font-size:20px;font-weight:bold}
+.container{padding:12px;padding-bottom:90px}
+.card{background:#fff;border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:0 4px 10px rgba(0,0,0,0.08)}
+.card h3{margin:0 0 10px;color:#0d6efd;font-size:16px}
+.row{display:flex;gap:10px}
+.box{flex:1;background:#eef4ff;padding:12px;border-radius:12px;text-align:center}
+.box h2{margin:5px 0;font-size:22px;color:#0d6efd}
+label{font-size:14px}
+input,select{width:100%;padding:8px;margin-top:6px;border-radius:8px;border:1px solid #ccc}
+button{width:100%;padding:10px;border:none;border-radius:10px;background:#0d6efd;color:#fff;font-size:15px;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:6px;border-bottom:1px solid #ddd;text-align:center}
+footer{position:fixed;bottom:0;width:100%;background:#fff;border-top:1px solid #ddd;display:flex}
+footer button{flex:1;background:#fff;color:#0d6efd;font-weight:bold;border:none;padding:10px}
+img{max-width:100%;margin-top:8px;border-radius:8px}
+</style>
+</head>
+
+<body>
+
+<header>Premium Supervisor Dashboard</header>
+
+<div class="container">
+
+<!-- Summary -->
+<div class="card">
+<h3>📊 Today Summary</h3>
+<div class="row">
+<div class="box"><div>Labour</div><h2 id="labourCount">0</h2></div>
+<div class="box"><div>Total Wages</div><h2 id="totalWage">₹0</h2></div>
+</div>
+</div>
+
+<!-- Labour Entry -->
+<div class="card">
+<h3>👷 Labour Entry</h3>
+<label>Date</label>
+<input type="date" id="date">
+
+<label>Worker Name</label>
+<input id="name">
+
+<label>Work Type</label>
+<select id="type">
+<option>Shuttering</option>
+<option>Helper</option>
+</select>
+
+<label>Daily Wage (₹)</label>
+<input type="number" id="wage">
+
+<button onclick="addLabour()">Add Labour</button>
+</div>
+
+<!-- Labour List -->
+<div class="card">
+<h3>📋 Labour List (Date Wise)</h3>
+<table id="table">
+<tr><th>Name</th><th>Type</th><th>₹</th></tr>
+</table>
+</div>
+
+<!-- Photo Upload -->
+<div class="card">
+<h3>📸 Site Photo Upload</h3>
+<input type="file" accept="image/*" onchange="loadPhoto(event)">
+<img id="photo">
+</div>
+
+<!-- Report -->
+<div class="card">
+<h3>📝 Daily Report</h3>
+<label>Work Done</label>
+<input id="work">
+
+<label>Remarks</label>
+<input id="remark">
+
+<button onclick="saveDay()">Save Day Record</button>
+<button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<!-- Monthly -->
+<div class="card">
+<h3>📆 Monthly Salary</h3>
+<h2 id="monthlyTotal">₹0</h2>
+</div>
+
+</div>
+
+<footer>
+<button onclick="location.reload()">🏠 Home</button>
+<button onclick="showMonthly()">📊 Month</button>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+let labour=[], data=JSON.parse(localStorage.getItem("records"))||{};
+let todayKey="";
+
+function addLabour(){
+const d=document.getElementById("date").value;
+if(!d) return alert("Select date");
+todayKey=d;
+const n=name.value, t=type.value, w=Number(wage.value);
+if(!n||!w) return alert("Fill all fields");
+labour.push({n,t,w});
+render();
+}
+
+function render(){
+table.innerHTML='<tr><th>Name</th><th>Type</th><th>₹</th></tr>';
+let total=0;
+labour.forEach(l=>{
+table.innerHTML+=`<tr><td>${l.n}</td><td>${l.t}</td><td>${l.w}</td></tr>`;
+total+=l.w;
+});
+labourCount.innerText=labour.length;
+totalWage.innerText="₹"+total;
+}
+
+function saveDay(){
+data[todayKey]={labour,work:work.value,remark:remark.value,total:totalWage.innerText};
+localStorage.setItem("records",JSON.stringify(data));
+alert("Saved Successfully");
+labour=[];
+render();
+}
+
+function showMonthly(){
+let sum=0;
+Object.values(data).forEach(d=>sum+=Number(d.total.replace("₹","")));
+monthlyTotal.innerText="₹"+sum;
+}
+
+function loadPhoto(e){
+photo.src=URL.createObjectURL(e.target.files[0]);
+}
+
+function downloadPDF(){
+const {jsPDF}=window.jspdf;
+const pdf=new jsPDF();
+pdf.text("Daily Supervisor Report",10,10);
+pdf.text("Date: "+todayKey,10,20);
+let y=30;
+labour.forEach(l=>{
+pdf.text(`${l.n} - ${l.t} - ₹${l.w}`,10,y); y+=8;
+});
+pdf.text("Work: "+work.value,10,y+5);
+pdf.text("Remark: "+remark.value,10,y+13);
+pdf.save("Daily_Report.pdf");
+}
+</script>
+
+</body>
+</html>
